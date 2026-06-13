@@ -1,0 +1,37 @@
+This file outlines the architecture of the project.
+
+The files will be stored on github in the repository called "Necromancer".
+
+The game will be built with Unity.
+
+I will use vscode to edit the code.
+
+UNITY TERMS: 
+
+Unity uses Scenes, GameObjects, Components, and Scripts. 
+
+Scenes correlate to levels, menus, rooms, etc.
+
+GameObjects are anything that's in a scene.
+
+Components are added to GameObjects to give them properties (like rigidbody = susceptible to gravity, collision detection, etc)
+
+Scripts are for custom actions, written in c#. 
+
+DOTS: I'm going to attempt to use a Data Oriented Technology Stack, for better performance.
+
+This uses three technologies: Entity Component System, Job System, and Burst Compiler.
+
+The entity component system:
+Entities: just an identifier
+Component: Holds data
+System: runs logic.
+
+GUIDELINES:
+
+Use built in unity components wherever possible.
+
+Have as few files as possible.
+
+Create constructor functions for every gameobject with documentation.
+
