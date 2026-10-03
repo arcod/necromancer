@@ -182,11 +182,25 @@ public class BuildingPlacer : MonoBehaviour
         return index >= 0;
     }
 
+    GUIStyle hintStyle;
+
     void OnGUI()
     {
+        // Give the label an explicit font: some Unity 6.0 versions throw a
+        // NullReferenceException in TextGenerationSettings when the default IMGUI font is missing.
+        if (hintStyle == null)
+        {
+            hintStyle = new GUIStyle
+            {
+                font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf"),
+                fontSize = 14,
+            };
+            hintStyle.normal.textColor = Color.white;
+        }
+
         string hint = IsPlacing
             ? "BUILD MODE: left-click to place, right-click or Esc to cancel"
             : "Press B to build";
-        GUI.Label(new Rect(10f, 10f, 600f, 25f), hint);
+        GUI.Label(new Rect(10f, 10f, 600f, 25f), hint, hintStyle);
     }
 }

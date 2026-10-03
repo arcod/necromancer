@@ -154,8 +154,10 @@ MonoBehaviour:
   MoveSpeed: 5
   NormalColor: {r: 1, g: 1, b: 1, a: 1}
   SelectedColor: {r: 0.2, g: 1, b: 0.2, a: 1}
-  MoveOnStart: 1
-  TestTarget: {x: 10, y: 0, z: 10}
+  MaxHealth: 100
+  AttackDamage: 25
+  AttackRange: 5
+  AttackCooldown: 0.5
 --- !u!136 &29450299
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -282,8 +284,10 @@ MonoBehaviour:
   MoveSpeed: 5
   NormalColor: {r: 1, g: 1, b: 1, a: 1}
   SelectedColor: {r: 0.2, g: 1, b: 0.2, a: 1}
-  MoveOnStart: 1
-  TestTarget: {x: 10, y: 0, z: 10}
+  MaxHealth: 100
+  AttackDamage: 25
+  AttackRange: 5
+  AttackCooldown: 0.5
 --- !u!136 &668445909
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -410,8 +414,10 @@ MonoBehaviour:
   MoveSpeed: 5
   NormalColor: {r: 1, g: 1, b: 1, a: 1}
   SelectedColor: {r: 0.2, g: 1, b: 0.2, a: 1}
-  MoveOnStart: 1
-  TestTarget: {x: 10, y: 0, z: 10}
+  MaxHealth: 100
+  AttackDamage: 25
+  AttackRange: 5
+  AttackCooldown: 0.5
 --- !u!136 &1136005209
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -538,8 +544,10 @@ MonoBehaviour:
   MoveSpeed: 5
   NormalColor: {r: 1, g: 1, b: 1, a: 1}
   SelectedColor: {r: 0.2, g: 1, b: 0.2, a: 1}
-  MoveOnStart: 1
-  TestTarget: {x: 10, y: 0, z: 10}
+  MaxHealth: 100
+  AttackDamage: 25
+  AttackRange: 5
+  AttackCooldown: 0.5
 --- !u!136 &1495109269
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -623,6 +631,59 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1495109267}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1645371433
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1645371435}
+  - component: {fileID: 1645371434}
+  m_Layer: 0
+  m_Name: Horde
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1645371434
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1645371433}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c4d7721c3a51410e92dce294496ba63, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  EnemyPrefab: {fileID: 4891586682800768645, guid: 2738ff3936ff54d63bbaf59ce5a9ecb6, type: 3}
+  PerWave: 100
+  WaveInterval: 5
+  MaxEnemies: 2000
+  SpawnRadius: 40
+  SpawnRingWidth: 5
+  Seed: 1
+  SeparationRadius: 1
+  SeparationStrength: 4
+--- !u!4 &1645371435
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1645371433}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -865,8 +926,10 @@ MonoBehaviour:
   MoveSpeed: 5
   NormalColor: {r: 1, g: 1, b: 1, a: 1}
   SelectedColor: {r: 0.2, g: 1, b: 0.2, a: 1}
-  MoveOnStart: 1
-  TestTarget: {x: 10, y: 0, z: 10}
+  MaxHealth: 100
+  AttackDamage: 25
+  AttackRange: 5
+  AttackCooldown: 0.5
 --- !u!1 &1985890307
 GameObject:
   m_ObjectHideFlags: 0
@@ -1010,8 +1073,10 @@ MonoBehaviour:
   MoveSpeed: 5
   NormalColor: {r: 1, g: 1, b: 1, a: 1}
   SelectedColor: {r: 0.2, g: 1, b: 0.2, a: 1}
-  MoveOnStart: 1
-  TestTarget: {x: 10, y: 0, z: 10}
+  MaxHealth: 100
+  AttackDamage: 25
+  AttackRange: 5
+  AttackCooldown: 0.5
 --- !u!136 &2004810691
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1115,3 +1180,4 @@ SceneRoots:
   - {fileID: 668445912}
   - {fileID: 1695202624}
   - {fileID: 1985890311}
+  - {fileID: 1645371435}

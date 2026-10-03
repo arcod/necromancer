@@ -34,13 +34,21 @@ public struct MoveTarget : IComponentData
 /// <summary>
 /// Makes a GameObject in a SubScene into a unit entity.
 /// Inspector fields: MoveSpeed sets walking speed; NormalColor/SelectedColor tint the unit
-/// (its material must be URP Lit or similar).
+/// (its material must be URP Lit or similar); the Combat fields set health and auto-attack.
 /// </summary>
 public class UnitAuthoring : MonoBehaviour
 {
     public float MoveSpeed = 5f;
     public Color NormalColor = Color.white;
     public Color SelectedColor = new Color(0.2f, 1f, 0.2f);
+
+    [Header("Combat")]
+    public float MaxHealth = 100f;
+    public float AttackDamage = 25f;
+    [Tooltip("Attacks the nearest enemy within this distance.")]
+    public float AttackRange = 5f;
+    [Tooltip("Seconds between attacks.")]
+    public float AttackCooldown = 0.5f;
 
     class Baker : Baker<UnitAuthoring>
     {
@@ -61,6 +69,15 @@ public class UnitAuthoring : MonoBehaviour
             float4 selected = (Vector4)authoring.SelectedColor.linear;
             AddComponent(entity, new UnitColors { Normal = normal, Selected = selected });
             AddComponent(entity, new URPMaterialPropertyBaseColor { Value = normal });
+
+            // Combat (see CombatSystems.cs).
+            AddComponent(entity, new Health { Current = authoring.MaxHealth, Max = authoring.MaxHealth });
+            AddComponent(entity, new Attack
+            {
+                Damage = authoring.AttackDamage,
+                Range = authoring.AttackRange,
+                Cooldown = authoring.AttackCooldown,
+            });
         }
     }
 }

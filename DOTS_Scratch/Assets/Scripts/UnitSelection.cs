@@ -278,7 +278,7 @@ public class UnitSelection : MonoBehaviour
 // _BaseColor per entity, so every unit can share one material.
 // ---------------------------------------------------------------------------
 
-/// <summary>Sets each unit's color based on whether it's selected.</summary>
+/// <summary>Sets each unit's color based on whether it's selected and how hurt it is.</summary>
 [BurstCompile]
 public partial struct SelectionHighlightSystem : ISystem
 {
@@ -293,8 +293,13 @@ public partial struct SelectionHighlightSystem : ISystem
 [WithOptions(EntityQueryOptions.IgnoreComponentEnabledState)] // run on selected AND unselected units
 public partial struct SelectionHighlightJob : IJobEntity
 {
-    void Execute(ref URPMaterialPropertyBaseColor color, in UnitColors colors, EnabledRefRO<Selected> selected)
+    void Execute(ref URPMaterialPropertyBaseColor color, in UnitColors colors, in Health health, EnabledRefRO<Selected> selected)
     {
-        color.Value = selected.ValueRO ? colors.Selected : colors.Normal;
+        float4 baseColor = selected.ValueRO ? colors.Selected : colors.Normal;
+
+        // Fade toward dark red as the unit loses health.
+        float health01 = math.saturate(health.Current / health.Max);
+        float4 hurtColor = new float4(0.5f, 0f, 0f, 1f);
+        color.Value = math.lerp(hurtColor, baseColor, health01);
     }
 }

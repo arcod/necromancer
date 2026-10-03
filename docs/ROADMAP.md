@@ -50,9 +50,9 @@ Mark tasks `[x]` when done. Add, remove, or reorder milestones freely.
 - [x] 3. Selection: click or drag a box to select units, with a highlight on selected units
 - [x] 4. Move orders: right-click the ground to send selected units there
 - [x] 5. Hex grid: generate a hex tile map as the ground
-- [ ] 6. Building placement: preview a building snapped to a hex, click to place it, and block that tile
-- [ ] 7. Horde: spawn enemies that walk toward the player's units; stress-test with thousands
-- [ ] 8. Combat: health, attacks and death
+- [x] 6. Building placement: preview a building snapped to a hex, click to place it, and block that tile
+- [x] 7. Horde: spawn enemies that walk toward the player's units; stress-test with thousands
+- [x] 8. Combat: health, attacks and death
 
 ### Milestone 1 — Prototype
 **Goal:** <!-- e.g. one unit you can select and move on a flat map -->
