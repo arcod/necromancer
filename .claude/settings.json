@@ -17,9 +17,18 @@
       "Read(./Logs/**)",
       "Read(./Build/**)",
       "Read(./Builds/**)",
+      "Read(./*/Library/**)",
+      "Read(./*/Temp/**)",
+      "Read(./*/Obj/**)",
+      "Read(./*/Logs/**)",
+      "Read(./*/Build/**)",
+      "Read(./*/Builds/**)",
       "Edit(./Library/**)",
       "Edit(./Temp/**)",
-      "Edit(./ProjectSettings/ProjectVersion.txt)"
+      "Edit(./*/Library/**)",
+      "Edit(./*/Temp/**)",
+      "Edit(./ProjectSettings/ProjectVersion.txt)",
+      "Edit(./*/ProjectSettings/ProjectVersion.txt)"
     ]
   }
 }

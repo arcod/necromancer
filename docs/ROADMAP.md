@@ -30,7 +30,7 @@ This file outlines project goals and a rough sequence of development.
 
 <!-- The milestone being worked on right now. Claude will stay inside this. -->
 
-**Milestone:** 0 — Project setup
+**Milestone:** Scratch — bare-bones DOTS RTS in `DOTS_Scratch`
 
 ---
 
@@ -42,6 +42,17 @@ Mark tasks `[x]` when done. Add, remove, or reorder milestones freely.
 - [x] GitHub repo and Claude setup
 - [ ] Choose Unity version and render pipeline
 - [ ] Create the Unity project in this repo
+
+### Scratch — bare-bones DOTS RTS (`DOTS_Scratch`)
+**Goal:** Learn Unity, DOTS and working with Claude by building the smallest playable RTS. Throwaway code: mistakes welcome.
+- [x] 1. Units move: a unit entity walks to a target position
+- [x] 2. RTS camera: pan (WASD / screen edges) and zoom (scroll wheel)
+- [x] 3. Selection: click or drag a box to select units, with a highlight on selected units
+- [x] 4. Move orders: right-click the ground to send selected units there
+- [x] 5. Hex grid: generate a hex tile map as the ground
+- [ ] 6. Building placement: preview a building snapped to a hex, click to place it, and block that tile
+- [ ] 7. Horde: spawn enemies that walk toward the player's units; stress-test with thousands
+- [ ] 8. Combat: health, attacks and death
 
 ### Milestone 1 — Prototype
 **Goal:** <!-- e.g. one unit you can select and move on a flat map -->
