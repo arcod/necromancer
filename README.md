@@ -1,6 +1,8 @@
 # necromancer
 Unity build of RTS/survival game called Necromancer.
 
+The Unity project is in [`Necromancer/`](Necromancer). Open that folder in Unity Hub (Unity 6000.3 LTS).
+
 ## Docs
 
 - [Roadmap](docs/ROADMAP.md) — goals and milestones

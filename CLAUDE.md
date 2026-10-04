@@ -10,11 +10,28 @@ Guidance for Claude when working in this repository.
 
 | Folder | What it is |
 |---|---|
-| `DOTS_Scratch/` | **Learning sandbox.** A throwaway Unity project for building a bare-bones DOTS RTS and learning Unity. Mistakes are fine here; don't over-engineer. |
-| *(not created yet)* | The real Necromancer Unity project. Lessons from the scratch project get rebuilt here cleanly. |
+| `Necromancer/` | The Unity project. It began as a learning sandbox (`DOTS_Scratch`) and was promoted to the real game, so some code still uses placeholder names (`Unit`, `Enemy`, `Building`) that should be renamed once GAME_MECHANICS.md defines the real terms. |
 | `docs/` | Design docs (below). |
 
-`DOTS_Scratch` uses Unity **6000.0.33f1**, URP, Entities **1.3.x**, Unity Physics, and the new **Input System** package. Scripts go in `DOTS_Scratch/Assets/Scripts/`; the main scene is `Assets/GameScene.unity` with entities in the SubScene `Assets/GameScene/EntitiesSubscene.unity`.
+The project uses Unity **6000.3 LTS** (6.3), URP, Entities **1.4.x**, Unity Physics, and the new **Input System** package (read directly via `Keyboard.current` / `Mouse.current`, no input actions asset).
+
+Inside `Necromancer/Assets/`:
+- `Scripts/`: all C# code
+- `Materials/`, `Prefabs/`: shared assets
+- `GameScene.unity`: the main scene (camera, input, grid generator, building placer)
+- `GameScene/EntitiesSubscene.unity`: the SubScene holding baked entities (units, horde settings)
+
+### Current systems
+
+| File | What it does |
+|---|---|
+| `UnitAuthoring.cs` | Unit components, baker, and movement toward a `MoveTarget` |
+| `RtsCamera.cs` | Pan/zoom camera (MonoBehaviour) |
+| `UnitSelection.cs` | Click/box selection, right-click move orders, selection/health tint |
+| `HexGridGenerator.cs` | Hex math (`HexMath`), the `HexGrid` singleton + `HexCell` buffer, and procedural terrain tiles |
+| `BuildingPlacer.cs` | Build mode (B): ghost preview snapped to hexes, places building entities, marks cells occupied |
+| `EnemyAuthoring.cs`, `HordeAuthoring.cs` | Enemy prefab baking, wave spawning, chase + spatial-hash separation |
+| `CombatSystems.cs` | Health, auto-attack via a damage queue, death via an EntityCommandBuffer |
 
 ## Read these first
 
