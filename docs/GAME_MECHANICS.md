@@ -64,7 +64,7 @@ Space is a valuable resource. Players need to be rewarded for efficient placemen
 |Black Basalt|Quarry placed on ground with black basalt features| Basalt will be the tier 2.5+ building cost| |
 |Iron|Produced in a Bloomery, either on iron ore veins or adjacent to swampland|Weaponry and upgrades| |
 |Ichor|Harvested from Eldritch Veins, something like springs of bubbling ichor arising from buried elder gods|Minions and research| |
-|Anima|Produced by Soul Font buildings placed on terrain with rising, wispy anima fumes|Minions |Anima is like the raw material a soul is made from. All necromantic creations have an anima supply cost. This functions like supply in starcraft. The Soul Fonts will have a multiplier that increases based on other soul fonts within range, creating a network of ghostly beams.|
+|Anima|Produced by Soul Font buildings, which can be built on any buildable tile|Minions |Anima is like the raw material a soul is made from. All necromantic creations have an anima supply cost. This functions like supply in starcraft. The Soul Fonts will have a multiplier that increases based on other soul fonts within range, creating a network of ghostly beams.|
 |Ostite|Produced by Bone Pits |Ostite will function like gold/currency in other rts games. Almost everything will have an ostite cost. The buildings will all have a skeletal foundation or inner structure to justify their ostite cost.| Bone pits are constantly delivering more ostite. Bone pits are especially productive when placed on graveyards|
 
 ## Units
@@ -130,7 +130,7 @@ Space is a valuable resource. Players need to be rewarded for efficient placemen
 - 3 tiles that share a vertex. They produce a tower in the center vertex with a glowing purple sphere.
 - 75 ostite, 10 wood. 
 - Each soul font adds 8 to the anima cap (allows you to train more units)
-- Soul Fonts can be placed on flat, resourceless ground tiles. Soul Fonts can not be placed within 5 tiles of another soul font. 
+- Soul Fonts can be placed on any buildable tile (grassland or desert). Soul Fonts can not be placed within 5 tiles of another soul font. 
   
 ### Crypt
 - 4 hexes in a diamond (a 2×2 rhombus).
@@ -190,7 +190,17 @@ The game clock tracks the passage of time. It drives production rates and the da
 
 Survival mode will drop the player off at a random point in the middle of a randomly generated map. The start building is 7 hexes (a circle of six around one). The rest of the map will be covered by fog of war. Medium map size: a square with about a 300 tile side length. Buildable area will be grassland or desert. Forest will be unbuildable/impassable. Cliffs will be impassable stone. Water is impassable. Swamp land is passable at a 50% movement speed debuff. 
 
-Grassland and desert tiles should have granite, black basalt, and iron patches randomly spread throughout. 
+Grassland and desert tiles should have granite, black basalt, iron, and eldritch vein patches randomly spread throughout.
+
+Graveyards appear next to small towns. Very rarely, a graveyard is found out on its own, unguarded.
+
+Starting values for resource generation (to be tweaked once we see the map):
+
+- 75% of buildable tiles have no resource.
+- Patches are irregular blobs of 3–10 tiles.
+- Relative frequency: granite 4 : black basalt 2 : iron 2 : eldritch vein 1. Granite is twice as common as basalt.
+- About 3 unguarded graveyards per map, each 1–3 tiles.
+- The tiles around the Phylactery's starting spot are always plain grassland.
 
 Starting 30 tiles from the phylactery, the map should be populated by followers of the church of the first flame. This means some isolated farms with weak/little defenses, small groups of buildings like houses/blacksmithes around a chapel, and rarely a large city, with a church, many houses, and walls. 
 

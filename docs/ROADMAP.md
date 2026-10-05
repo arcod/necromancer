@@ -58,7 +58,7 @@ Mark tasks `[x]` when done. Add, remove, or reorder milestones freely.
 **Goal:** A playable starting economy: the Phylactery, starting minions, real terrain, and the first buildings and resources, on a working clock.
 - [x] 1. Rename placeholders in code to the GAME_MECHANICS.md terms (`Unit` → `Minion`, horde → raiding party, enemy prefab → Townsperson)
 - [x] 2. Game clock: tick = 1 real second, game hour = 1 real minute, UI clock (`Day 2 — 14:30`), day/night lighting
-- [ ] 3. Terrain to spec: grassland, desert, forest, cliff, water, swamp; resource features (granite, black basalt, iron, anima fumes, eldritch veins, graveyards)
+- [x] 3. Terrain to spec: grassland, desert, forest, cliff, water, swamp; resource features (granite, black basalt, iron, eldritch veins, rare unguarded graveyards); map grows to 120 × 120
 - [ ] 4. Hex pathfinding: avoid forest, cliffs and water; swamp at 50% speed; wraiths may cross water and forest
 - [ ] 5. Multi-hex buildings and placement rules: Phylactery (7 hexes, nothing adjacent), Bone Pit (diamond, joins with neighbors), Soul Font (3 hexes around a vertex, 5-tile spacing), Crypt; terrain requirements
 - [ ] 6. Economy: ostite from Bone Pits (per hour, trickled per tick), anima cap from Soul Fonts, building costs, resource bar UI
@@ -67,7 +67,7 @@ Mark tasks `[x]` when done. Add, remove, or reorder milestones freely.
 ### Milestone 2 — The Church notices
 **Goal:** An opponent and a way to win or lose.
 - [ ] Fog of war and per-minion vision radius
-- [ ] Church of the First Flame settlements from 30+ tiles out: isolated farms, chapel hamlets, rare walled cities
+- [ ] Church of the First Flame settlements from 30+ tiles out: isolated farms, chapel hamlets, rare walled cities; graveyards next to small towns
 - [ ] Townsperson, Acolyte and Flame Priest units
 - [ ] Raiding parties that grow as the player claims more of the map, and the final onslaught at hour 72
 - [ ] Win (all enemy forces destroyed) / lose (Phylactery destroyed); no time limit

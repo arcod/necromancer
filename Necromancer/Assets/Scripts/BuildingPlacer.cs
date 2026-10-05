@@ -23,7 +23,7 @@ public struct Building : IComponentData
 
 /// <summary>
 /// Press B to enter build mode. A preview follows the cursor, snapped to hexes:
-/// green = can build, red = can't (water, rock, or already occupied).
+/// green = can build, red = can't (only grassland and desert are buildable, and not already occupied).
 /// Left-click to place; right-click, Esc, or B again to leave build mode.
 /// Add to a GameObject in GameScene (NOT inside the SubScene) and assign BuildingMaterial (URP Lit).
 /// </summary>
@@ -121,7 +121,7 @@ public class BuildingPlacer : MonoBehaviour
 
         DynamicBuffer<HexCell> cells = entityManager.GetBuffer<HexCell>(gridEntity);
         HexCell cell = cells[index];
-        bool canBuild = cell.IsOpen;
+        bool canBuild = cell.CanBuild;
 
         // Move the ghost onto the hovered hex and color it.
         float3 center = HexMath.AxialToWorld(axial, outerRadius);

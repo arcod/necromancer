@@ -274,8 +274,8 @@ MonoBehaviour:
   EdgeSize: 15
   MinDistance: 10
   MaxDistance: 80
-  ZoomSensitivity: 0.05
-  ZoomSmoothing: 10
+  ZoomSensitivity: 0.4
+  ZoomSmoothing: 20
   Pitch: 55
   Yaw: 0
   MapMin: {x: -50, y: -50}
@@ -437,18 +437,42 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 946c3b6a8e7654991990f3ac62b1049e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Width: 60
-  Height: 60
+  Width: 120
+  Height: 120
   OuterRadius: 1
   TileScale: 0.95
   TileMaterial: {fileID: 2100000, guid: 545158f274fdd48939aa897c8b24fe45, type: 2}
   Seed: 1
-  NoiseScale: 0.08
+  NoiseScale: 0.06
   ClearRadius: 5
+  WaterLevel: -0.5
+  CliffLevel: 0.6
+  ForestMoisture: 0.3
+  SwampElevation: -0.25
+  DesertMoisture: -0.4
+  CliffHeight: 4
+  ForestHeight: 2
+  SwampHeight: -0.05
+  WaterHeight: -0.2
+  ResourceCoverage: 0.25
+  MinPatchSize: 3
+  MaxPatchSize: 10
+  GraniteWeight: 4
+  BlackBasaltWeight: 2
+  IronWeight: 2
+  EldritchVeinWeight: 1
+  UnguardedGraveyards: 3
   GrassColor: {r: 0.36, g: 0.56, b: 0.26, a: 1}
-  DirtColor: {r: 0.56, g: 0.43, b: 0.29, a: 1}
-  RockColor: {r: 0.45, g: 0.45, b: 0.48, a: 1}
+  DesertColor: {r: 0.82, g: 0.72, b: 0.48, a: 1}
+  ForestColor: {r: 0.12, g: 0.32, b: 0.14, a: 1}
+  CliffColor: {r: 0.42, g: 0.38, b: 0.35, a: 1}
   WaterColor: {r: 0.22, g: 0.42, b: 0.72, a: 1}
+  SwampColor: {r: 0.3, g: 0.36, b: 0.22, a: 1}
+  GraniteColor: {r: 0.75, g: 0.68, b: 0.66, a: 1}
+  BlackBasaltColor: {r: 0.12, g: 0.12, b: 0.14, a: 1}
+  IronColor: {r: 0.55, g: 0.27, b: 0.17, a: 1}
+  EldritchVeinColor: {r: 0.45, g: 0.85, b: 0.35, a: 1}
+  GraveyardColor: {r: 0.62, g: 0.6, b: 0.68, a: 1}
 --- !u!4 &606821542
 Transform:
   m_ObjectHideFlags: 0
