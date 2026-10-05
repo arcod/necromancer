@@ -56,7 +56,7 @@ Mark tasks `[x]` when done. Add, remove, or reorder milestones freely.
 
 ### Milestone 1 — The Lich wakes
 **Goal:** A playable starting economy: the Phylactery, starting minions, real terrain, and the first buildings and resources, on a working clock.
-- [ ] 1. Rename placeholders in code to the GAME_MECHANICS.md terms (`Unit` → `Minion`, `Enemy` → the Church's units, etc.)
+- [x] 1. Rename placeholders in code to the GAME_MECHANICS.md terms (`Unit` → `Minion`, horde → raiding party, enemy prefab → Townsperson)
 - [ ] 2. Game clock: tick = 1 real second, game hour = 1 real minute, UI clock (`Day 2 — 14:30`), day/night lighting
 - [ ] 3. Terrain to spec: grassland, desert, forest, cliff, water, swamp; resource features (granite, black basalt, iron, anima fumes, eldritch veins, graveyards)
 - [ ] 4. Hex pathfinding: avoid forest, cliffs and water; swamp at 50% speed; wraiths may cross water and forest
@@ -69,8 +69,8 @@ Mark tasks `[x]` when done. Add, remove, or reorder milestones freely.
 - [ ] Fog of war and per-minion vision radius
 - [ ] Church of the First Flame settlements from 30+ tiles out: isolated farms, chapel hamlets, rare walled cities
 - [ ] Townsperson, Acolyte and Flame Priest units
-- [ ] Raiding parties that grow as the player claims more of the map, ending in a final onslaught
-- [ ] Win (all enemy forces destroyed) / lose (Phylactery destroyed); hard limit around hour 84
+- [ ] Raiding parties that grow as the player claims more of the map, and the final onslaught at hour 72
+- [ ] Win (all enemy forces destroyed) / lose (Phylactery destroyed); no time limit
 - [ ] Full-size map (about 300 × 300 tiles) with the performance work that needs
 
 ### Milestone 3 — Growing power

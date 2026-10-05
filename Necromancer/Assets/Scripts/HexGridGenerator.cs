@@ -113,7 +113,7 @@ public struct HexCell : IBufferElementData
     public bool Occupied; // e.g. a building stands here (step 6)
     public Entity Tile;   // the visible tile entity
 
-    /// <summary>Can units walk here / can something be built here?</summary>
+    /// <summary>Can minions walk here / can something be built here?</summary>
     public bool IsOpen => !Occupied && (Terrain == HexTerrain.Grass || Terrain == HexTerrain.Dirt);
 }
 
@@ -149,7 +149,7 @@ public class HexGridGenerator : MonoBehaviour
     public int Seed = 1;
     [Tooltip("Smaller = bigger patches of each terrain type.")]
     public float NoiseScale = 0.08f;
-    [Tooltip("Tiles within this many hexes of the map center are always grass, so units start on open ground.")]
+    [Tooltip("Tiles within this many hexes of the map center are always grass, so minions start on open ground.")]
     public int ClearRadius = 5;
 
     public Color GrassColor = new Color(0.36f, 0.56f, 0.26f);

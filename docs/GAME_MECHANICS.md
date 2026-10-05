@@ -11,7 +11,7 @@ One line per term. Add to this whenever you name something new.
 
 | Term | Category | Definition |
 |---|---|---|
-| Lich | Character | The player's main character: a once-powerful undead mage whose spirit is bound to the Phylactery. |
+| Lich | Character | The player: a once-powerful undead mage whose spirit lives inside the Phylactery. Not a unit; has no controllable presence on the map. |
 | Phylactery | Building | The vessel holding the Lich's spirit, housed in a ritualistic altar. The starting building; if it's destroyed, the player loses. |
 | Minion | Unit | Any selectable, controllable player unit (cultists, wraiths, skeletons, etc.). |
 | Cultist | Minion | Starting worker and builder. |
@@ -20,11 +20,13 @@ One line per term. Add to this whenever you name something new.
 | Skeletal Archer | Minion | Basic ranged soldier. |
 | Church of the First Flame | Faction | The human enemy: a theocracy ruled by fire mages. |
 | Townsperson | Enemy | Common human of the Church's settlements. Weak. |
+| Raiding party | Enemy | A group of Church units sent to attack the player. They grow larger as the player claims more of the map. |
 | Acolyte | Enemy | Trained soldier of the Church. |
 | Flame Priest | Enemy | Fire mage of the Church. The most dangerous human unit. |
 | Tick | Time | One game minute; one real second. The smallest step of the game clock. |
 | Game hour | Time | 60 ticks; one real minute. The unit for production rates. |
 | Day | Time | 24 game hours: one day/night cycle. |
+| Final onslaught | Enemy | The Church's largest attack, arriving at hour 72 (the end of Day 3). |
 
 Categories might include: Unit, Building, Resource, Ability, Faction, Stat, Status Effect, Terrain, UI.
 
@@ -40,10 +42,12 @@ The player is a lich, spawning from a phylactery. They were once powerful, but t
 
 The match continues until one side is wiped out:
 
-- The player **wins** when all enemy forces on the map have been destroyed, including a final onslaught of humanity.
+- The player **wins** when all enemy forces on the map have been destroyed, including the final onslaught of humanity, which arrives at hour 72.
 - The player **loses** if enemy forces reach and destroy the Phylactery.
 
-A typical match should last about 3 days (72 game hours), with a hard limit of about 84 game hours (see Game time).
+There is no time limit (see Game time).
+
+The Lich is the player's identity, not a unit: it lives inside the Phylactery and acts only through minions and buildings.
 
 The player controls **minions**: wraiths, skeletons, revived remains, cultists, corrupted mages, and abominations. The player commands those minions to fight and build for them. The player should be constantly fighting for more space on the map, which lets them harvest more resources and grow their economy, but also increases the difficulty of enemies they encounter and increases the size of enemy incursions. 
 
@@ -145,11 +149,19 @@ Space is a valuable resource. Players need to be rewarded for efficient placemen
 
 Church of the First Flame: a theocratic organization run by fire mages. They have small churches throughout the world, near clusters of houses and farms.
 
-Enemy units (stats to be decided):
+Enemy units. Stats use the same order as minions: health · speed · damage · range · vision radius.
 
-- **Townsperson:** common folk who farm, hunt and forage. Weak fighters, found in every settlement.
-- **Acolyte:** the Church's trained soldiers. They guard chapels and make up most raiding parties.
-- **Flame Priest:** fire mages who lead the Church and harvest energy fonts. Rare and dangerous.
+### Townsperson
+- Common folk who farm, hunt and forage. Found in every settlement. The weakest Church unit: stronger than a Cultist, weaker than a Skeletal Warrior.
+- 15 · 2 · 2 · 1 · 5
+
+### Acolyte
+- The Church's trained soldiers. They guard chapels and make up most raiding parties. About a match for a Skeletal Warrior.
+- 25 · 2 · 3 · 1 · 6
+
+### Flame Priest
+- Fire mages who lead the Church and harvest energy fonts. Rare and dangerous ranged attackers.
+- 30 · 2 · 6 · 5 · 8
 
 ## Game time
 
@@ -160,13 +172,12 @@ The game clock tracks the passage of time. It drives production rates and the da
 | 1 game minute (one **tick**) | 1 second |
 | 1 **game hour** | 1 minute |
 | 1 **day** (24 game hours, one day/night cycle) | 24 minutes |
-| Typical survival match (3 days, 72 game hours) | 72 minutes |
-| Hard limit (about 84 game hours) | about 84 minutes |
+| Final onslaught arrives (end of Day 3, hour 72) | 72 minutes in |
 
 - **Ticks:** the clock advances one game minute per real second. Anything measured "per hour" (e.g. a Bone Pit's ostite per hour) is spread evenly across that hour's 60 ticks, so resources trickle in rather than arriving in hourly lumps.
 - **Start time:** a match begins at 06:00 on Day 1 (dawn). *(Assumed — change if you prefer.)*
 - **Day/night cycle:** daytime is 06:00–18:00 and night is 18:00–06:00. The cycle only changes the visuals (sun angle, light color, darkness at night) and marks time passing. It has no gameplay effects.
-- **Match length:** the match runs until all enemy forces are destroyed (win) or the Phylactery is destroyed (lose). Pacing should bring most matches to an end around day 3, with a hard limit of about hour 84 (midday on Day 4).
+- **Match length:** there is no time limit. The match runs until one side is wiped out: all enemy forces destroyed (win) or the Phylactery destroyed (lose). The final onslaught arrives at hour 72, so most matches should end soon after.
 - **UI clock:** always visible on screen, showing the day and time, e.g. `Day 2 — 14:30`.
 
 ---
@@ -194,6 +205,7 @@ Format: **When** *something happens* → **then** *result*.
 
 - **When** enemy forces destroy the Phylactery → **then** the player loses.
 - **When** all enemy forces on the map are destroyed → **then** the player wins.
+- **When** the clock reaches hour 72 → **then** the final onslaught begins.
 - **When** a Bone Pit is placed adjacent to another Bone Pit → **then** they join into a larger, deeper pit that produces more ostite.
 - **When** a Bone Pit is placed on a graveyard → **then** it produces extra ostite.
 - **When** a Soul Font is within range of other Soul Fonts → **then** its output multiplier increases, shown as ghostly beams between them.
@@ -205,7 +217,4 @@ Format: **When** *something happens* → **then** *result*.
 
 ## Open questions
 
-- Is the Lich a unit on the map from the start, or only the spirit in the Phylactery until it "manifests a physical presence"?
-- What happens if the hard limit (about hour 84) is reached before either side is wiped out?
-- When does the final onslaught of humanity arrive: at a set time, or when the player reaches a certain size?
-- Stats for Townsperson, Acolyte and Flame Priest.
+- How do stat values map to the game world? (E.g. is speed 2 hexes per second, and range 5 hexes?) Current code uses its own placeholder numbers.

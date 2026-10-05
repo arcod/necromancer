@@ -12,14 +12,14 @@ using UnityEngine.InputSystem;
 // ---------------------------------------------------------------------------
 
 /// <summary>
-/// Marks a unit as selected. It's an "enableable" component: every unit always has it,
+/// Marks a minion as selected. It's an "enableable" component: every minion always has it,
 /// and selecting just flips it on or off. That's much cheaper than adding and removing
 /// a component, which forces ECS to move the entity to different memory.
 /// </summary>
 public struct Selected : IComponentData, IEnableableComponent { }
 
-/// <summary>The colors a unit is drawn with when not selected / selected (linear color space).</summary>
-public struct UnitColors : IComponentData
+/// <summary>The colors a minion is drawn with when not selected / selected (linear color space).</summary>
+public struct MinionColors : IComponentData
 {
     public float4 Normal;
     public float4 Selected;
@@ -27,18 +27,18 @@ public struct UnitColors : IComponentData
 
 // ---------------------------------------------------------------------------
 // INPUT: a regular MonoBehaviour, because there's only one mouse.
-// It reads unit positions from ECS, flips their Selected component, and
+// It reads minion positions from ECS, flips their Selected component, and
 // writes MoveTarget when the player gives a move order.
 // ---------------------------------------------------------------------------
 
 /// <summary>
-/// Left-click or drag a box to select units; hold Shift to add to the selection.
-/// Right-click the ground to send selected units there in a grid formation.
+/// Left-click or drag a box to select minions; hold Shift to add to the selection.
+/// Right-click the ground to send selected minions there in a grid formation.
 /// Add to any GameObject in GameScene (NOT inside the SubScene).
 /// </summary>
-public class UnitSelection : MonoBehaviour
+public class MinionSelection : MonoBehaviour
 {
-    [Tooltip("When clicking, how close (in pixels) the cursor must be to a unit to select it.")]
+    [Tooltip("When clicking, how close (in pixels) the cursor must be to a minion to select it.")]
     public float ClickRadius = 30f;
     [Tooltip("Mouse must move this many pixels before a click becomes a box drag.")]
     public float DragThreshold = 8f;
@@ -46,11 +46,11 @@ public class UnitSelection : MonoBehaviour
     public Color BoxBorder = new Color(0.3f, 0.9f, 0.3f, 0.9f);
 
     [Header("Move orders")]
-    [Tooltip("Distance between units in the formation they walk into.")]
+    [Tooltip("Distance between minions in the formation they walk into.")]
     public float FormationSpacing = 2f;
 
     Camera cam;
-    EntityQuery unitQuery;
+    EntityQuery minionQuery;
     EntityQuery selectedQuery;
     bool queryCreated;
     bool dragging;
@@ -111,7 +111,7 @@ public class UnitSelection : MonoBehaviour
     }
 
     /// <summary>
-    /// Sends every selected unit to a slot in a square grid centered on the target,
+    /// Sends every selected minion to a slot in a square grid centered on the target,
     /// so they don't all try to stand on the same spot.
     /// </summary>
     void IssueMoveOrder(Vector3 target)
@@ -119,7 +119,7 @@ public class UnitSelection : MonoBehaviour
         if (!TryGetEntityManager(out EntityManager entityManager))
             return;
 
-        // selectedQuery only matches units whose Selected component is enabled.
+        // selectedQuery only matches minions whose Selected component is enabled.
         NativeArray<Entity> selected = selectedQuery.ToEntityArray(Allocator.Temp);
         int count = selected.Length;
         int columns = Mathf.CeilToInt(Mathf.Sqrt(count));
@@ -144,7 +144,7 @@ public class UnitSelection : MonoBehaviour
         selected.Dispose();
     }
 
-    /// <summary>Select the single unit nearest the cursor (within ClickRadius).</summary>
+    /// <summary>Select the single minion nearest the cursor (within ClickRadius).</summary>
     void SelectClosestTo(Vector2 point, bool additive)
     {
         if (!TryGetUnits(out EntityManager entityManager, out NativeArray<Entity> entities, out NativeArray<LocalTransform> transforms))
@@ -176,7 +176,7 @@ public class UnitSelection : MonoBehaviour
         transforms.Dispose();
     }
 
-    /// <summary>Select every unit whose on-screen position is inside the box.</summary>
+    /// <summary>Select every minion whose on-screen position is inside the box.</summary>
     void SelectInBox(Rect box, bool additive)
     {
         if (!TryGetUnits(out EntityManager entityManager, out NativeArray<Entity> entities, out NativeArray<LocalTransform> transforms))
@@ -198,8 +198,8 @@ public class UnitSelection : MonoBehaviour
     }
 
     /// <summary>
-    /// Copies every unit entity and its position out of ECS. Caller must Dispose both arrays.
-    /// Fine for hundreds of player units; enemies aren't selectable so they aren't included.
+    /// Copies every minion entity and its position out of ECS. Caller must Dispose both arrays.
+    /// Fine for hundreds of player minions; enemies aren't selectable so they aren't included.
     /// </summary>
     bool TryGetUnits(out EntityManager entityManager, out NativeArray<Entity> entities, out NativeArray<LocalTransform> transforms)
     {
@@ -209,8 +209,8 @@ public class UnitSelection : MonoBehaviour
         if (!TryGetEntityManager(out entityManager))
             return false;
 
-        entities = unitQuery.ToEntityArray(Allocator.Temp);
-        transforms = unitQuery.ToComponentDataArray<LocalTransform>(Allocator.Temp);
+        entities = minionQuery.ToEntityArray(Allocator.Temp);
+        transforms = minionQuery.ToComponentDataArray<LocalTransform>(Allocator.Temp);
         return true;
     }
 
@@ -226,15 +226,15 @@ public class UnitSelection : MonoBehaviour
         entityManager = world.EntityManager;
         if (!queryCreated)
         {
-            // IgnoreComponentEnabledState: include units whether Selected is on or off.
-            unitQuery = new EntityQueryBuilder(Allocator.Temp)
-                .WithAll<Unit, LocalTransform, Selected>()
+            // IgnoreComponentEnabledState: include minions whether Selected is on or off.
+            minionQuery = new EntityQueryBuilder(Allocator.Temp)
+                .WithAll<Minion, LocalTransform, Selected>()
                 .WithOptions(EntityQueryOptions.IgnoreComponentEnabledState)
                 .Build(entityManager);
 
             // Without that option, a query only matches entities where Selected is enabled.
             selectedQuery = new EntityQueryBuilder(Allocator.Temp)
-                .WithAll<Unit, Selected, MoveTarget>()
+                .WithAll<Minion, Selected, MoveTarget>()
                 .Build(entityManager);
 
             queryCreated = true;
@@ -273,12 +273,12 @@ public class UnitSelection : MonoBehaviour
 }
 
 // ---------------------------------------------------------------------------
-// HIGHLIGHT: tints selected units by overriding their material's Base Color.
+// HIGHLIGHT: tints selected minions by overriding their material's Base Color.
 // URPMaterialPropertyBaseColor is an Entities Graphics component that sets
-// _BaseColor per entity, so every unit can share one material.
+// _BaseColor per entity, so every minion can share one material.
 // ---------------------------------------------------------------------------
 
-/// <summary>Sets each unit's color based on whether it's selected and how hurt it is.</summary>
+/// <summary>Sets each minion's color based on whether it's selected and how hurt it is.</summary>
 [BurstCompile]
 public partial struct SelectionHighlightSystem : ISystem
 {
@@ -290,14 +290,14 @@ public partial struct SelectionHighlightSystem : ISystem
 }
 
 [BurstCompile]
-[WithOptions(EntityQueryOptions.IgnoreComponentEnabledState)] // run on selected AND unselected units
+[WithOptions(EntityQueryOptions.IgnoreComponentEnabledState)] // run on selected AND unselected minions
 public partial struct SelectionHighlightJob : IJobEntity
 {
-    void Execute(ref URPMaterialPropertyBaseColor color, in UnitColors colors, in Health health, EnabledRefRO<Selected> selected)
+    void Execute(ref URPMaterialPropertyBaseColor color, in MinionColors colors, in Health health, EnabledRefRO<Selected> selected)
     {
         float4 baseColor = selected.ValueRO ? colors.Selected : colors.Normal;
 
-        // Fade toward dark red as the unit loses health.
+        // Fade toward dark red as the minion loses health.
         float health01 = math.saturate(health.Current / health.Max);
         float4 hurtColor = new float4(0.5f, 0f, 0f, 1f);
         color.Value = math.lerp(hurtColor, baseColor, health01);

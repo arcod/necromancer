@@ -6,7 +6,7 @@ using Unity.Mathematics;
 using Unity.Transforms;
 
 // ---------------------------------------------------------------------------
-// COMPONENTS (baked by UnitAuthoring and EnemyAuthoring)
+// COMPONENTS (baked by MinionAuthoring and EnemyAuthoring)
 // ---------------------------------------------------------------------------
 
 public struct Health : IComponentData
@@ -33,26 +33,26 @@ public struct DamageEvent
 
 // ---------------------------------------------------------------------------
 // COMBAT
-// Units attack enemies, enemies attack units. Thousands of enemies may hit the
-// same unit in one frame, and parallel jobs can't safely all write to one
-// unit's Health at once. So attackers only *queue* damage events in parallel,
+// Minions attack enemies, enemies attack minions. Thousands of enemies may hit the
+// same minion in one frame, and parallel jobs can't safely all write to one
+// minion's Health at once. So attackers only *queue* damage events in parallel,
 // and a single job then applies them all.
 // ---------------------------------------------------------------------------
 
 [BurstCompile]
-[UpdateAfter(typeof(UnitMoveSystem))]
+[UpdateAfter(typeof(MinionMoveSystem))]
 [UpdateAfter(typeof(EnemyMoveSystem))]
 public partial struct CombatSystem : ISystem
 {
     [BurstCompile]
     public void OnUpdate(ref SystemState state)
     {
-        EntityQuery unitQuery = SystemAPI.QueryBuilder().WithAll<Unit, LocalTransform, Health>().Build();
+        EntityQuery minionQuery = SystemAPI.QueryBuilder().WithAll<Minion, LocalTransform, Health>().Build();
         EntityQuery enemyQuery = SystemAPI.QueryBuilder().WithAll<Enemy, LocalTransform, Health>().Build();
 
         // Snapshot of who can be hit, and where they are.
-        NativeArray<Entity> units = unitQuery.ToEntityArray(state.WorldUpdateAllocator);
-        NativeArray<LocalTransform> unitTransforms = unitQuery.ToComponentDataArray<LocalTransform>(state.WorldUpdateAllocator);
+        NativeArray<Entity> minions = minionQuery.ToEntityArray(state.WorldUpdateAllocator);
+        NativeArray<LocalTransform> minionTransforms = minionQuery.ToComponentDataArray<LocalTransform>(state.WorldUpdateAllocator);
         NativeArray<Entity> enemies = enemyQuery.ToEntityArray(state.WorldUpdateAllocator);
         NativeArray<LocalTransform> enemyTransforms = enemyQuery.ToComponentDataArray<LocalTransform>(state.WorldUpdateAllocator);
 
@@ -60,7 +60,7 @@ public partial struct CombatSystem : ISystem
         float deltaTime = SystemAPI.Time.DeltaTime;
 
         // The same AttackJob runs twice, on two different sets of attackers.
-        EntityQuery unitAttackers = SystemAPI.QueryBuilder().WithAll<Unit, LocalTransform>().WithAllRW<Attack>().Build();
+        EntityQuery minionAttackers = SystemAPI.QueryBuilder().WithAll<Minion, LocalTransform>().WithAllRW<Attack>().Build();
         EntityQuery enemyAttackers = SystemAPI.QueryBuilder().WithAll<Enemy, LocalTransform>().WithAllRW<Attack>().Build();
 
         state.Dependency = new AttackJob
@@ -69,12 +69,12 @@ public partial struct CombatSystem : ISystem
             TargetTransforms = enemyTransforms,
             Damage = damage.AsParallelWriter(),
             DeltaTime = deltaTime,
-        }.ScheduleParallel(unitAttackers, state.Dependency);
+        }.ScheduleParallel(minionAttackers, state.Dependency);
 
         state.Dependency = new AttackJob
         {
-            Targets = units,
-            TargetTransforms = unitTransforms,
+            Targets = minions,
+            TargetTransforms = minionTransforms,
             Damage = damage.AsParallelWriter(),
             DeltaTime = deltaTime,
         }.ScheduleParallel(enemyAttackers, state.Dependency);

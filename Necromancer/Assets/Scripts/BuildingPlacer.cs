@@ -38,7 +38,7 @@ public class BuildingPlacer : MonoBehaviour
     /// <summary>True while in build mode. Other input scripts check this so clicks don't do two things.</summary>
     public static bool IsPlacing { get; private set; }
 
-    /// <summary>True if the mouse is being used for building this frame — UnitSelection ignores the mouse then.</summary>
+    /// <summary>True if the mouse is being used for building this frame — MinionSelection ignores the mouse then.</summary>
     public static bool IsMouseBusy => IsPlacing || lastMouseFrame == Time.frameCount;
     static int lastMouseFrame = -1;
 

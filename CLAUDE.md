@@ -10,7 +10,7 @@ Guidance for Claude when working in this repository.
 
 | Folder | What it is |
 |---|---|
-| `Necromancer/` | The Unity project. It began as a learning sandbox (`DOTS_Scratch`) and was promoted to the real game, so some code still uses placeholder names (`Unit`, `Enemy`, `Building`). These get renamed to the GAME_MECHANICS.md terms (`Minion`, the Church's enemy units, named buildings) in Milestone 1, step 1. |
+| `Necromancer/` | The Unity project. It began as a learning sandbox (`DOTS_Scratch`) and was promoted to the real game, and its code now uses the GAME_MECHANICS.md terms. `Enemy` and `Building` remain as generic *category* components (any Church unit / any structure); specific types (Townsperson, Bone Pit, …) build on them. |
 | `docs/` | Design docs (below). |
 
 The project uses Unity **6000.3 LTS** (6.3), URP, Entities **1.4.x**, Unity Physics, and the new **Input System** package (read directly via `Keyboard.current` / `Mouse.current`, no input actions asset).
@@ -19,18 +19,18 @@ Inside `Necromancer/Assets/`:
 - `Scripts/`: all C# code
 - `Materials/`, `Prefabs/`: shared assets
 - `GameScene.unity`: the main scene (camera, input, grid generator, building placer)
-- `GameScene/EntitiesSubscene.unity`: the SubScene holding baked entities (units, horde settings)
+- `GameScene/EntitiesSubscene.unity`: the SubScene holding baked entities (minions, raid settings)
 
 ### Current systems
 
 | File | What it does |
 |---|---|
-| `UnitAuthoring.cs` | Unit components, baker, and movement toward a `MoveTarget` |
+| `MinionAuthoring.cs` | Minion components, baker, and movement toward a `MoveTarget` |
 | `RtsCamera.cs` | Pan/zoom camera (MonoBehaviour) |
-| `UnitSelection.cs` | Click/box selection, right-click move orders, selection/health tint |
+| `MinionSelection.cs` | Click/box selection, right-click move orders, selection/health tint |
 | `HexGridGenerator.cs` | Hex math (`HexMath`), the `HexGrid` singleton + `HexCell` buffer, and procedural terrain tiles |
 | `BuildingPlacer.cs` | Build mode (B): ghost preview snapped to hexes, places building entities, marks cells occupied |
-| `EnemyAuthoring.cs`, `HordeAuthoring.cs` | Enemy prefab baking, wave spawning, chase + spatial-hash separation |
+| `EnemyAuthoring.cs`, `RaidAuthoring.cs` | Enemy prefab baking (currently the Townsperson prefab), raiding-party wave spawning, chase + spatial-hash separation |
 | `CombatSystems.cs` | Health, auto-attack via a damage queue, death via an EntityCommandBuffer |
 
 ## Read these first

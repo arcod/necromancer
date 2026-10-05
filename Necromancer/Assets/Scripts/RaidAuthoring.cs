@@ -9,8 +9,8 @@ using UnityEngine;
 // COMPONENTS
 // ---------------------------------------------------------------------------
 
-/// <summary>Singleton with the horde's settings. Baked from HordeAuthoring.</summary>
-public struct HordeConfig : IComponentData
+/// <summary>Singleton with the raid's settings. Baked from RaidAuthoring.</summary>
+public struct RaidConfig : IComponentData
 {
     public Entity EnemyPrefab;
     public int PerWave;
@@ -23,7 +23,7 @@ public struct HordeConfig : IComponentData
 }
 
 /// <summary>Spawner state that changes while playing (kept apart from the fixed settings).</summary>
-public struct HordeSpawnState : IComponentData
+public struct RaidSpawnState : IComponentData
 {
     public float Timer;
     public Unity.Mathematics.Random Random;
@@ -34,11 +34,12 @@ public struct HordeSpawnState : IComponentData
 // ---------------------------------------------------------------------------
 
 /// <summary>
-/// Spawns waves of enemies on a ring around the map center; they chase the nearest unit.
+/// Spawns raiding parties: waves of enemies on a ring around the map center that chase the nearest minion.
+/// (Placeholder behavior. Milestone 2 replaces it with raids launched from Church settlements.)
 /// Add to an empty GameObject INSIDE the SubScene and assign EnemyPrefab
 /// (a prefab asset with EnemyAuthoring on it).
 /// </summary>
-public class HordeAuthoring : MonoBehaviour
+public class RaidAuthoring : MonoBehaviour
 {
     public GameObject EnemyPrefab;
 
@@ -60,13 +61,13 @@ public class HordeAuthoring : MonoBehaviour
     [Tooltip("How hard they push apart. Higher = more spread out, but more jittery.")]
     public float SeparationStrength = 4f;
 
-    class Baker : Baker<HordeAuthoring>
+    class Baker : Baker<RaidAuthoring>
     {
-        public override void Bake(HordeAuthoring authoring)
+        public override void Bake(RaidAuthoring authoring)
         {
             // None = this entity has no position; it only holds settings.
             Entity entity = GetEntity(TransformUsageFlags.None);
-            AddComponent(entity, new HordeConfig
+            AddComponent(entity, new RaidConfig
             {
                 // Referencing a prefab here makes the baker convert it into an entity prefab.
                 EnemyPrefab = GetEntity(authoring.EnemyPrefab, TransformUsageFlags.Dynamic),
@@ -78,7 +79,7 @@ public class HordeAuthoring : MonoBehaviour
                 SeparationRadius = authoring.SeparationRadius,
                 SeparationStrength = authoring.SeparationStrength,
             });
-            AddComponent(entity, new HordeSpawnState
+            AddComponent(entity, new RaidSpawnState
             {
                 Timer = 0f,
                 Random = Unity.Mathematics.Random.CreateFromIndex(authoring.Seed),
@@ -93,22 +94,22 @@ public class HordeAuthoring : MonoBehaviour
 
 /// <summary>Every WaveInterval seconds, copies the enemy prefab PerWave times onto the spawn ring.</summary>
 [BurstCompile]
-public partial struct HordeSpawnSystem : ISystem
+public partial struct RaidSpawnSystem : ISystem
 {
     [BurstCompile]
     public void OnCreate(ref SystemState state)
     {
-        // Don't run until the SubScene with the horde settings has loaded.
-        state.RequireForUpdate<HordeConfig>();
+        // Don't run until the SubScene with the raid settings has loaded.
+        state.RequireForUpdate<RaidConfig>();
     }
 
     [BurstCompile]
     public void OnUpdate(ref SystemState state)
     {
         EntityManager entityManager = state.EntityManager;
-        Entity hordeEntity = SystemAPI.GetSingletonEntity<HordeConfig>();
-        HordeConfig config = entityManager.GetComponentData<HordeConfig>(hordeEntity);
-        HordeSpawnState spawn = entityManager.GetComponentData<HordeSpawnState>(hordeEntity);
+        Entity raidEntity = SystemAPI.GetSingletonEntity<RaidConfig>();
+        RaidConfig config = entityManager.GetComponentData<RaidConfig>(raidEntity);
+        RaidSpawnState spawn = entityManager.GetComponentData<RaidSpawnState>(raidEntity);
 
         spawn.Timer -= SystemAPI.Time.DeltaTime;
         if (spawn.Timer <= 0f)
@@ -134,7 +135,7 @@ public partial struct HordeSpawnSystem : ISystem
             }
         }
 
-        entityManager.SetComponentData(hordeEntity, spawn);
+        entityManager.SetComponentData(raidEntity, spawn);
     }
 }
 
@@ -142,39 +143,39 @@ public partial struct HordeSpawnSystem : ISystem
 // MOVEMENT
 // Two jobs per frame:
 //  1. Drop every enemy into a "spatial hash": a map from grid cell -> enemies in that cell.
-//  2. Each enemy walks toward the nearest unit, and pushes away from enemies in its own
+//  2. Each enemy walks toward the nearest minion, and pushes away from enemies in its own
 //     and neighboring cells. Checking only nearby cells (not all enemies) is what keeps
 //     this fast with thousands of enemies.
 // ---------------------------------------------------------------------------
 
-public static class HordeGrid
+public static class EnemyGrid
 {
     public static int2 CellOf(float3 position, float cellSize) => (int2)math.floor(position.xz / cellSize);
     public static int Key(int2 cell) => (int)math.hash(cell);
 }
 
 [BurstCompile]
-[UpdateAfter(typeof(HordeSpawnSystem))]
+[UpdateAfter(typeof(RaidSpawnSystem))]
 public partial struct EnemyMoveSystem : ISystem
 {
     [BurstCompile]
     public void OnCreate(ref SystemState state)
     {
-        state.RequireForUpdate<HordeConfig>();
+        state.RequireForUpdate<RaidConfig>();
     }
 
     [BurstCompile]
     public void OnUpdate(ref SystemState state)
     {
-        HordeConfig config = SystemAPI.GetSingleton<HordeConfig>();
+        RaidConfig config = SystemAPI.GetSingleton<RaidConfig>();
 
         int enemyCount = SystemAPI.QueryBuilder().WithAll<Enemy, LocalTransform>().Build().CalculateEntityCount();
         if (enemyCount == 0)
             return;
 
-        // Copy all unit positions into an array the jobs can read.
+        // Copy all minion positions into an array the jobs can read.
         // WorldUpdateAllocator memory is freed automatically after a couple of frames.
-        NativeArray<LocalTransform> units = SystemAPI.QueryBuilder().WithAll<Unit, LocalTransform>().Build()
+        NativeArray<LocalTransform> minions = SystemAPI.QueryBuilder().WithAll<Minion, LocalTransform>().Build()
             .ToComponentDataArray<LocalTransform>(state.WorldUpdateAllocator);
 
         var grid = new NativeParallelMultiHashMap<int, float3>(enemyCount, Allocator.TempJob);
@@ -189,7 +190,7 @@ public partial struct EnemyMoveSystem : ISystem
         state.Dependency = new EnemyMoveJob
         {
             Grid = grid,
-            Units = units,
+            Minions = minions,
             CellSize = config.SeparationRadius,
             SeparationRadius = config.SeparationRadius,
             SeparationStrength = config.SeparationStrength,
@@ -209,7 +210,7 @@ public partial struct BuildEnemyGridJob : IJobEntity
 
     void Execute(in LocalTransform transform)
     {
-        Grid.Add(HordeGrid.Key(HordeGrid.CellOf(transform.Position, CellSize)), transform.Position);
+        Grid.Add(EnemyGrid.Key(EnemyGrid.CellOf(transform.Position, CellSize)), transform.Position);
     }
 }
 
@@ -217,7 +218,7 @@ public partial struct BuildEnemyGridJob : IJobEntity
 public partial struct EnemyMoveJob : IJobEntity
 {
     [ReadOnly] public NativeParallelMultiHashMap<int, float3> Grid;
-    [ReadOnly] public NativeArray<LocalTransform> Units;
+    [ReadOnly] public NativeArray<LocalTransform> Minions;
     public float CellSize;
     public float SeparationRadius;
     public float SeparationStrength;
@@ -227,12 +228,12 @@ public partial struct EnemyMoveJob : IJobEntity
     {
         float3 position = transform.Position;
 
-        // 1. Head for the nearest unit (unless already close enough).
+        // 1. Head for the nearest minion (unless already close enough).
         float3 toNearest = float3.zero;
         float nearestDistanceSq = float.MaxValue;
-        for (int i = 0; i < Units.Length; i++)
+        for (int i = 0; i < Minions.Length; i++)
         {
-            float3 offset = Units[i].Position - position;
+            float3 offset = Minions[i].Position - position;
             offset.y = 0f;
             float distanceSq = math.lengthsq(offset);
             if (distanceSq < nearestDistanceSq)
@@ -243,18 +244,18 @@ public partial struct EnemyMoveJob : IJobEntity
         }
 
         float3 chase = float3.zero;
-        if (Units.Length > 0 && nearestDistanceSq > enemy.StopDistance * enemy.StopDistance)
+        if (Minions.Length > 0 && nearestDistanceSq > enemy.StopDistance * enemy.StopDistance)
             chase = math.normalize(toNearest);
 
         // 2. Push away from enemies that are too close, checking this cell and the 8 around it.
         float3 push = float3.zero;
         float radiusSq = SeparationRadius * SeparationRadius;
-        int2 cell = HordeGrid.CellOf(position, CellSize);
+        int2 cell = EnemyGrid.CellOf(position, CellSize);
         for (int dx = -1; dx <= 1; dx++)
         {
             for (int dz = -1; dz <= 1; dz++)
             {
-                int key = HordeGrid.Key(cell + new int2(dx, dz));
+                int key = EnemyGrid.Key(cell + new int2(dx, dz));
                 if (!Grid.TryGetFirstValue(key, out float3 other, out NativeParallelMultiHashMapIterator<int> iterator))
                     continue;
                 do
