@@ -10,7 +10,7 @@ Guidance for Claude when working in this repository.
 
 | Folder | What it is |
 |---|---|
-| `Necromancer/` | The Unity project. It began as a learning sandbox (`DOTS_Scratch`) and was promoted to the real game, so some code still uses placeholder names (`Unit`, `Enemy`, `Building`) that should be renamed once GAME_MECHANICS.md defines the real terms. |
+| `Necromancer/` | The Unity project. It began as a learning sandbox (`DOTS_Scratch`) and was promoted to the real game, so some code still uses placeholder names (`Unit`, `Enemy`, `Building`). These get renamed to the GAME_MECHANICS.md terms (`Minion`, the Church's enemy units, named buildings) in Milestone 1, step 1. |
 | `docs/` | Design docs (below). |
 
 The project uses Unity **6000.3 LTS** (6.3), URP, Entities **1.4.x**, Unity Physics, and the new **Input System** package (read directly via `Keyboard.current` / `Mouse.current`, no input actions asset).

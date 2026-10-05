@@ -54,17 +54,31 @@ Mark tasks `[x]` when done. Add, remove, or reorder milestones freely.
 - [x] 7. Horde: spawn enemies that walk toward the player's units; stress-test with thousands
 - [x] 8. Combat: health, attacks and death
 
-### Milestone 1 — Prototype
-**Goal:** <!-- e.g. one unit you can select and move on a flat map -->
-- [ ]
+### Milestone 1 — The Lich wakes
+**Goal:** A playable starting economy: the Phylactery, starting minions, real terrain, and the first buildings and resources, on a working clock.
+- [ ] 1. Rename placeholders in code to the GAME_MECHANICS.md terms (`Unit` → `Minion`, `Enemy` → the Church's units, etc.)
+- [ ] 2. Game clock: tick = 1 real second, game hour = 1 real minute, UI clock (`Day 2 — 14:30`), day/night lighting
+- [ ] 3. Terrain to spec: grassland, desert, forest, cliff, water, swamp; resource features (granite, black basalt, iron, anima fumes, eldritch veins, graveyards)
+- [ ] 4. Hex pathfinding: avoid forest, cliffs and water; swamp at 50% speed; wraiths may cross water and forest
+- [ ] 5. Multi-hex buildings and placement rules: Phylactery (7 hexes, nothing adjacent), Bone Pit (diamond, joins with neighbors), Soul Font (3 hexes around a vertex, 5-tile spacing), Crypt; terrain requirements
+- [ ] 6. Economy: ostite from Bone Pits (per hour, trickled per tick), anima cap from Soul Fonts, building costs, resource bar UI
+- [ ] 7. Match start: Phylactery placed mid-map with 6 Cultists and 2 Wraiths; Cultists construct buildings; Crypt trains Skeletal Warriors and Skeletal Archers
 
-### Milestone 2 —
-**Goal:**
-- [ ]
+### Milestone 2 — The Church notices
+**Goal:** An opponent and a way to win or lose.
+- [ ] Fog of war and per-minion vision radius
+- [ ] Church of the First Flame settlements from 30+ tiles out: isolated farms, chapel hamlets, rare walled cities
+- [ ] Townsperson, Acolyte and Flame Priest units
+- [ ] Raiding parties that grow as the player claims more of the map, ending in a final onslaught
+- [ ] Win (all enemy forces destroyed) / lose (Phylactery destroyed); hard limit around hour 84
+- [ ] Full-size map (about 300 × 300 tiles) with the performance work that needs
 
-### Milestone 3 —
-**Goal:**
-- [ ]
+### Milestone 3 — Growing power
+**Goal:** The wider economy and tech tiers.
+- [ ] Wood (Sawmill), Granite and Black Basalt (Quarry), Iron (Bloomery), Ichor (Eldritch Veins)
+- [ ] Soul Font network multiplier and beams
+- [ ] Tiers and upgrades (Phylactery tech tiers, Bone Pit tiers)
+- [ ] More minions: revived remains, corrupted mages, abominations
 
 ---
 
