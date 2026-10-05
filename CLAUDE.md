@@ -31,6 +31,7 @@ Inside `Necromancer/Assets/`:
 | `HexGridGenerator.cs` | Hex math (`HexMath`), the `HexGrid` singleton + `HexCell` buffer, and procedural terrain tiles |
 | `BuildingPlacer.cs` | Build mode (B): ghost preview snapped to hexes, places building entities, marks cells occupied |
 | `EnemyAuthoring.cs`, `RaidAuthoring.cs` | Enemy prefab baking (currently the Townsperson prefab), raiding-party wave spawning, chase + spatial-hash separation |
+| `DayNightCycle.cs` | `GameClock` singleton + `GameClockSystem` (1 tick = 1 game minute = 1 real second), day/night lighting, on-screen clock |
 | `CombatSystems.cs` | Health, auto-attack via a damage queue, death via an EntityCommandBuffer |
 
 ## Read these first

@@ -57,7 +57,7 @@ Mark tasks `[x]` when done. Add, remove, or reorder milestones freely.
 ### Milestone 1 — The Lich wakes
 **Goal:** A playable starting economy: the Phylactery, starting minions, real terrain, and the first buildings and resources, on a working clock.
 - [x] 1. Rename placeholders in code to the GAME_MECHANICS.md terms (`Unit` → `Minion`, horde → raiding party, enemy prefab → Townsperson)
-- [ ] 2. Game clock: tick = 1 real second, game hour = 1 real minute, UI clock (`Day 2 — 14:30`), day/night lighting
+- [x] 2. Game clock: tick = 1 real second, game hour = 1 real minute, UI clock (`Day 2 — 14:30`), day/night lighting
 - [ ] 3. Terrain to spec: grassland, desert, forest, cliff, water, swamp; resource features (granite, black basalt, iron, anima fumes, eldritch veins, graveyards)
 - [ ] 4. Hex pathfinding: avoid forest, cliffs and water; swamp at 50% speed; wraiths may cross water and forest
 - [ ] 5. Multi-hex buildings and placement rules: Phylactery (7 hexes, nothing adjacent), Bone Pit (diamond, joins with neighbors), Soul Font (3 hexes around a vertex, 5-tile spacing), Crypt; terrain requirements

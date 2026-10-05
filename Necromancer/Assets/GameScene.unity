@@ -540,6 +540,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1589223485}
   - component: {fileID: 1589223486}
+  - component: {fileID: 1589223487}
   m_Layer: 0
   m_Name: ProjectManager
   m_TagString: Untagged
@@ -579,6 +580,28 @@ MonoBehaviour:
   BoxFill: {r: 0.3, g: 0.9, b: 0.3, a: 0.15}
   BoxBorder: {r: 0.3, g: 0.9, b: 0.3, a: 0.9}
   FormationSpacing: 2
+--- !u!114 &1589223487
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1589223484}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ee25109130c54832af5b43167abc83a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DayNightCycle
+  Sun: {fileID: 0}
+  SunAzimuth: -30
+  SunIntensity: 1.2
+  NoonColor: {r: 1, g: 0.96, b: 0.88, a: 1}
+  HorizonColor: {r: 1, g: 0.55, b: 0.3, a: 1}
+  DayAmbient: {r: 0.55, g: 0.58, b: 0.62, a: 1}
+  MoonIntensity: 0.3
+  MoonColor: {r: 0.45, g: 0.55, b: 0.85, a: 1}
+  NightAmbient: {r: 0.1, g: 0.12, b: 0.22, a: 1}
+  ClockSpeed: 1
 --- !u!1 &1695202620
 GameObject:
   m_ObjectHideFlags: 0
